@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using PizzaBox.Storing;
+using PizzaBox.Domain.Models;
 
 namespace PizzaBox.Client
 {
@@ -24,6 +27,22 @@ namespace PizzaBox.Client
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddDbContext<PizzaBoxDbContext>(options =>
+            {
+                    options.UseSqlServer(Configuration.GetConnectionString("mssql")); //recommended
+                    //options.UseSqlServer(Configuration["dataconnect:mssql"]); //all other config
+            });
+            services.AddCors(options => 
+            {
+               options.AddDefaultPolicy(poli =>
+               {
+                    poli.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+               });
+               options.AddPolicy("private", poli =>
+               {
+                    poli.WithOrigins("microsoft.com").WithMethods("get", "post").WithHeaders("content-type");
+               });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +58,7 @@ namespace PizzaBox.Client
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseCors(); //implement the default policy, global policy
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -46,12 +66,14 @@ namespace PizzaBox.Client
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
+           app.UseEndpoints(endpoints => //global routing
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+          
         }
     }
 }

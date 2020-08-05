@@ -1,0 +1,32 @@
+@model PizzaBox.Client.Models.PizzaViewModel
+
+<form action="/order/placeorder" method="post">
+
+     @foreach(var crust in @Model.Crusts)
+     {
+          <input type="radio" name="crust" id="crust" value="@crust.Name" data-val="true" data-val-required=" The Crust field is required. ">
+          <label for="Crust">@crust.Name</label>
+     }
+     @Html.ValidationMessageFor(m => m.Crust)
+
+
+     <select name="size" id="">
+          @foreach (var size in @Model.Sizes)
+          {
+               <option value="@size.Name">@size.Name</option>
+               
+          }
+     </select>
+     @Html.ValidationMessageFor(m => m.Size)
+
+     @foreach(var top in @Model.Toppings)
+     {
+          <input type="checkbox" name="topping" id="selectedtopping" value="@top.Name">
+          <label for="selectedtoppings">@top.Name</label>
+          
+     }
+     @Html.ValidationMessageFor(m => m.SelectedToppings)
+
+     <button type="submit">Place Order</button>
+
+</form>

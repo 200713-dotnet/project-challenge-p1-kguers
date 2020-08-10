@@ -27,15 +27,38 @@ namespace PizzaBox.Client.Models
           public PizzaViewModel()
           {
                // instantiate options for pizza
-               Crusts = new List<CrustModel>() {new CrustModel(){Name = "Stuffed"}};
-               Sizes = new List<SizeModel>() { new SizeModel() {Name = "Medium"}};
+               Crusts = new List<CrustModel>() 
+               {
+                    new CrustModel(){Name = "Regular"},
+                    new CrustModel(){Name = "Stuffed"},
+                    new CrustModel(){Name = "Thin"}
+               };
+               Sizes = new List<SizeModel>() { 
+                    new SizeModel() {Name = "Small"},
+                    new SizeModel() {Name = "Medium"},
+                    new SizeModel() {Name = "Large"},
+                    new SizeModel() {Name = "Party"}
+               };
                Toppings = new List<ToppingModel>() {
+                    new ToppingModel() {Name = "Cheese"},
+                    new ToppingModel() {Name = "Sauce"},
                     new ToppingModel() {Name = "Pepperoni"},
-                    new ToppingModel() {Name = "Sausage"}
+                    new ToppingModel() {Name = "Sausage"},
+                    new ToppingModel() {Name = "Bacon"},
+                    new ToppingModel() {Name = "Meatball"},
+                    new ToppingModel() {Name = "Ham"},
+                    new ToppingModel() {Name = "Pineapple"}
+
                     };
                Toppings2 = new List<CheckBoxTopping>(){
+                    new CheckBoxTopping() {Text = "Cheese", IsSelected = false},
+                    new CheckBoxTopping() {Text = "Sauce", IsSelected = false},
                     new CheckBoxTopping() {Text = "Pepperoni", IsSelected = false},
-                    new CheckBoxTopping() {Text = "Sausage", IsSelected = false}
+                    new CheckBoxTopping() {Text = "Sausage", IsSelected = false},
+                    new CheckBoxTopping() {Text = "Bacon", IsSelected = false},
+                    new CheckBoxTopping() {Text = "Meatball", IsSelected = false},
+                    new CheckBoxTopping() {Text = "Ham", IsSelected = false},
+                    new CheckBoxTopping() {Text = "Pineapple", IsSelected = false}
                     };
           }
           

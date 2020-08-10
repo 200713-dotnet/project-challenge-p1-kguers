@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using PizzaBox.Domain.Models;
 
 namespace PizzaBox.Domain.Factories
@@ -6,7 +7,10 @@ namespace PizzaBox.Domain.Factories
      {
           public PizzaModel Create()
           {
-               return new PizzaModel();
+               return new PizzaModel()
+               {
+                    Toppings = new List<ToppingModel>(),
+               };
           }
      }
 }

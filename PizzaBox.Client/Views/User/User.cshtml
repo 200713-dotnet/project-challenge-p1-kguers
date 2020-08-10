@@ -1,0 +1,13 @@
+@model PizzaBox.Client.Models.UserViewModel
+
+<h3>Enter Name</h3>
+<form action="/user/name" method="post">
+     @Html.AntiForgeryToken()
+
+     <input type="text" id="name" name="name" value="@Model.Name" data-val="true" data-val-required="Enter Name Required">
+     <label for="Name">@Model.Name</label>
+
+     @Html.ValidationMessageFor(m => m.Name)
+     
+     <button type="submit">Enter Name</button>
+</form>

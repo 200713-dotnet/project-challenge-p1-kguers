@@ -1,7 +1,8 @@
 @model PizzaBox.Client.Models.PizzaViewModel
 
+<h3>Create Custom Pizza for Order</h3>
 <form action="/order/placeorder" method="post">
-
+     @Html.AntiForgeryToken()
      @foreach(var crust in @Model.Crusts)
      {
           <input type="radio" name="crust" id="crust" value="@crust.Name" data-val="true" data-val-required=" The Crust field is required. ">
@@ -21,7 +22,7 @@
 
      @foreach(var top in @Model.Toppings)
      {
-          <input type="checkbox" name="topping" id="selectedtopping" value="@top.Name">
+          <input type="checkbox" name="selectedtoppings" id="selectedtoppings" value="@top.Name">
           <label for="selectedtoppings">@top.Name</label>
           
      }

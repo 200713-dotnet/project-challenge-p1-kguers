@@ -1,0 +1,16 @@
+*{
+     color: #cf2020;
+     color: #ff5000;
+     color: rgba(0,0,0);
+     background-color: #eea857;
+}
+img [src] {
+     display: block;
+     margin: 0 auto;
+     text-align: match-parent;
+}
+body{
+     margin: 0 auto;
+     padding: 0 20px 20px 20px;
+     min-height: 400px;
+}

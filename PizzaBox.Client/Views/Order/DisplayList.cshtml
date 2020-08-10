@@ -1,0 +1,28 @@
+@model PizzaBox.Domain.Models.OrderModel
+
+<h2>Current Order Cart</h2>
+<section>
+     <form action="/order/edit" method="post">
+          @Html.AntiForgeryToken()
+          <select name="">
+               @foreach(var p in @Model.Pizzas)
+               {
+                    <button type="button" value="@p.Name">Edit @p.Name</button>
+                    <input type="text" id="pizza">
+                    <label for="pizza">@p.Crust @p.Size 
+                         @foreach(var t in @p.Toppings)
+                         {
+                              @t.Name
+                         }
+                    </label>
+               }
+          </select>
+     </form>
+</section>
+
+
+<section>
+     <form action="/user/index">
+          <button type="submit">Back to User Directory</button>
+     </form>
+</section>

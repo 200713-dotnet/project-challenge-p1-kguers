@@ -11,8 +11,10 @@ namespace PizzaBox.Client.Models
           public List<SizeModel> Sizes { get; set; }
           public List<ToppingModel> Toppings { get; set; }
           public List<CheckBoxTopping> Toppings2 { get; set; }
+          //presets
 
           // in from the client
+          public string Name { get; set; }
           [Required]
           public string Crust { get; set; }
           [Required]
@@ -27,13 +29,13 @@ namespace PizzaBox.Client.Models
           public PizzaViewModel()
           {
                // instantiate options for pizza
-               Crusts = new List<CrustModel>() 
+               Crusts = new List<CrustModel>()
                {
                     new CrustModel(){Name = "Regular"},
                     new CrustModel(){Name = "Stuffed"},
                     new CrustModel(){Name = "Thin"}
                };
-               Sizes = new List<SizeModel>() { 
+               Sizes = new List<SizeModel>() {
                     new SizeModel() {Name = "Small"},
                     new SizeModel() {Name = "Medium"},
                     new SizeModel() {Name = "Large"},
@@ -48,8 +50,7 @@ namespace PizzaBox.Client.Models
                     new ToppingModel() {Name = "Meatball"},
                     new ToppingModel() {Name = "Ham"},
                     new ToppingModel() {Name = "Pineapple"}
-
-                    };
+               };
                Toppings2 = new List<CheckBoxTopping>(){
                     new CheckBoxTopping() {Text = "Cheese", IsSelected = false},
                     new CheckBoxTopping() {Text = "Sauce", IsSelected = false},
@@ -59,13 +60,13 @@ namespace PizzaBox.Client.Models
                     new CheckBoxTopping() {Text = "Meatball", IsSelected = false},
                     new CheckBoxTopping() {Text = "Ham", IsSelected = false},
                     new CheckBoxTopping() {Text = "Pineapple", IsSelected = false}
-                    };
+               };
           }
-          
           public class CheckBoxTopping : ToppingModel
           {
                public string Text { get; set; }
-               public bool IsSelected{ get; set; }
+               public bool IsSelected { get; set; }
           }
+
      }
 }

@@ -16,8 +16,6 @@ namespace PizzaBox.Client.Controllers
      {
           private readonly PizzaBoxDbContext _db;
           private PizzaBoxRepo _pr;
-          //private static UserModel _user;
-          //private static StoreModel _store;
           private static UserViewModel _uservm;
           private static StoreViewModel _storevm;
           public OrderController(PizzaBoxDbContext dbContext) //constructor dependency injection
@@ -30,7 +28,10 @@ namespace PizzaBox.Client.Controllers
           
           public IActionResult Home(UserViewModel u)
           {
-               _uservm = u;
+               if(_uservm == null)
+               {
+                    _uservm = u;
+               }
                return View("Order", new PizzaViewModel());
           }
           
@@ -41,7 +42,8 @@ namespace PizzaBox.Client.Controllers
                if(ModelState.IsValid) //validating if values are null with data annotations
                {
                     var p = new PizzaFactory(); //use dependency injection
-                    var newPizza = p.Create();
+                    PizzaModel newPizza = p.Create();
+                    newPizza.Name = pizzaViewModel.Name;
                     newPizza.Crust = new CrustModel(){Name = pizzaViewModel.Crust};
                     newPizza.Size = new SizeModel(){Name = pizzaViewModel.Size};
                     newPizza.Toppings = new List<ToppingModel>();
@@ -59,17 +61,49 @@ namespace PizzaBox.Client.Controllers
                     return View("Order", pizzaViewModel);
                }
           }
+          [HttpPost()]
+          public IActionResult PostStore(StoreViewModel storeViewModel)
+          {
+               _storevm = storeViewModel;
+               // newStore.StoreOrders = _pr.ReadStore(newStore);
+               // if (_store.StoreOrders == null)
+               // {
+               //      _pr.CreateStore(_store);
+               // }
+               return Redirect("/user/index");
+          }
           [HttpGet]
           public IActionResult OrderList(UserViewModel u)
           {
-               ViewBag.User(u);
-               return View("DisplayList");
+               if(_uservm == null)
+               {
+                    return Redirect("/user/index");
+               }
+               return View("DisplayList", _uservm.CurrentOrder);
+          }
+
+          [HttpPost]
+          [ValidateAntiForgeryToken]
+          public IActionResult Edit(OrderViewModel o)
+          {
+               _uservm.CurrentOrder.Pizzas.RemoveAt(o.SelectedPizza);
+               return View("Order", new PizzaViewModel());
           }
           [HttpPost]
           public IActionResult Checkout(UserViewModel u)
           {
-               _pr.CreateOrder(u.CurrentOrder);
-               //add all to repo
+               var user = _uservm.AddUser();
+               user.Name = _uservm.Name;
+               var o = new OrderFactory();
+               var order = o.Create();
+               order.Pizzas = _uservm.CurrentOrder.Pizzas;
+               order.Name = "Order"; //generic name
+               order.DateOrdered = _uservm.CurrentOrder.DateOrdered;
+               user.UserOrders.Add(order);
+               var store = _storevm.AddStore();
+               store.StoreOrders = user.UserOrders;
+               _pr.CreateUser(user);
+               _pr.CreateStore(store);
                return Redirect("user/clearorder");
           }
 

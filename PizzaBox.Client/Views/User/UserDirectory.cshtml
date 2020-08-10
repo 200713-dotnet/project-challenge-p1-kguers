@@ -9,12 +9,12 @@
 
 <section>
      <form action="/order/orderlist" method="get">
-     <button type="submit" name="@Model.Name" value="@Model.Name">Check Order History</button>
+     <button type="submit" name="@Model.CurrentOrder" value="@Model.Name">Check Order History</button>
      </form>
 </section>
 
 <section>
      <form action="/order/checkout" method="post">
-     <button type="submit" name="@Model.Name" value="@Model.Name">Checkout</button>
+     <button type="submit" name="@Model.CurrentOrder" value="@Model.Name">Checkout</button>
      </form>
 </section>

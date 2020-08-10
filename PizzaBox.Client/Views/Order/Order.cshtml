@@ -1,6 +1,9 @@
 @model PizzaBox.Client.Models.PizzaViewModel
 
-<h3>Create Custom Pizza for Order</h3>
+
+
+
+<h3>Create Pizza for Order</h3>
 <form action="/order/placeorder" method="post">
      @Html.AntiForgeryToken()
      @foreach(var crust in @Model.Crusts)
@@ -19,7 +22,8 @@
           }
      </select>
      @Html.ValidationMessageFor(m => m.Size)
-
+     
+     <!--add radio of preset options -->
      @foreach(var top in @Model.Toppings)
      {
           <input type="checkbox" name="selectedtoppings" id="selectedtoppings" value="@top.Name">
@@ -28,6 +32,6 @@
      }
      @Html.ValidationMessageFor(m => m.SelectedToppings)
 
-     <button type="submit">Place Order</button>
+     <button type="submit" name="name" value="Custom">Add Custom Order</button>
 
 </form>

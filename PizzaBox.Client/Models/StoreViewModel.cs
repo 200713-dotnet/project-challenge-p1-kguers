@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using PizzaBox.Domain.Factories;
 using PizzaBox.Domain.Models;
 
 namespace PizzaBox.Client.Models
@@ -17,5 +18,10 @@ namespace PizzaBox.Client.Models
                Stores = new List<string>{"West End Pizzeria", "East Side Pies"};
           }
 
+          public StoreModel AddStore()
+          {
+               var s = new StoreFactory();
+               return s.Create();
+          }
      }
 }

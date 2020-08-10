@@ -1,22 +1,27 @@
-@model PizzaBox.Domain.Models.OrderModel
+@model PizzaBox.Client.Models.OrderViewModel
 
 <h2>Current Order Cart</h2>
 <section>
      <form action="/order/edit" method="post">
           @Html.AntiForgeryToken()
-          <select name="">
-               @foreach(var p in @Model.Pizzas)
+          @{
+               int i = 0;
+
+               foreach(var p in @Model.Pizzas)
                {
-                    <button type="button" value="@p.Name">Edit @p.Name</button>
-                    <input type="text" id="pizza">
-                    <label for="pizza">@p.Crust @p.Size 
+                    <input type="radio" name="selectedpizza" value="@i">
+                    <label for="selectedpizza">@p.Name &nbsp; @p.Crust.Name &nbsp; @p.Size.Name &nbsp;
                          @foreach(var t in @p.Toppings)
                          {
                               @t.Name
                          }
                     </label>
+                    i = i + 1;
+                    <br>
                }
-          </select>
+          }
+               @Html.ValidationMessageFor(m => m.SelectedPizza)
+          <button type="submit">Edit Selected Pizza</button>
      </form>
 </section>
 

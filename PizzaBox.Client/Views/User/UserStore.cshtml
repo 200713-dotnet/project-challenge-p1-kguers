@@ -1,7 +1,7 @@
 @model PizzaBox.Client.Models.StoreViewModel
 
 <h3>Select Store</h3>
-<form action="/user/poststore" method="post">
+<form action="/order/poststore" method="post">
      @Html.AntiForgeryToken()
      <select name="store">
           @foreach(var store in @Model.Stores)

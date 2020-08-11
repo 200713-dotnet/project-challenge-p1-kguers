@@ -29,6 +29,7 @@ namespace PizzaBox.Client.Controllers
                }
                else
                {
+                    _user.UserOrders = _pr.ReadUser(_user);
                     return View("UserDirectory", _uservm);
                }
           }
@@ -42,15 +43,8 @@ namespace PizzaBox.Client.Controllers
                _user = u.Create();
                _user.Name = userViewModel.Name;
                _user.UserOrders = _pr.ReadUser(_user);
-               if (!_user.UserOrders.Any())
-               {
-                    _uservm.IsRegistered = false;
-               }
-               else
-               {
-                    _uservm.UserOrders = _user.UserOrders;
-                     _uservm.IsRegistered = true;
-               }
+               _uservm.UserOrders = _user.UserOrders;
+                    
                return View("UserStore", new StoreViewModel());
           }
 

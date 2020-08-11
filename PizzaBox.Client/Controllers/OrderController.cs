@@ -70,15 +70,8 @@ namespace PizzaBox.Client.Controllers
                _store = s.Create();
                _store.Name = _storevm.Store;
                _store.StoreOrders = _pr.ReadStore(_store);
-               if (!_store.StoreOrders.Any())
-               {
-                   _storevm.IsRegistered = false;
-               }
-               else
-               {
-                    _storevm.StoreOrders = _store.StoreOrders;
-                    _storevm.IsRegistered = true;
-               }
+                _storevm.StoreOrders = _store.StoreOrders;
+                  
                return Redirect("/user/index");
           }
           [HttpGet]
@@ -101,7 +94,7 @@ namespace PizzaBox.Client.Controllers
           [HttpPost]
           public IActionResult UserHistory(UserViewModel u)
           {
-               return View("UserHistory", _uservm);
+               return View("UserHistory", u);
           }
           [HttpPost]
           public IActionResult Checkout(UserViewModel u)
@@ -116,22 +109,17 @@ namespace PizzaBox.Client.Controllers
                user.UserOrders.Add(order);
                _store = _storevm.AddStore();
                _store.Name = _storevm.Store;
-               _store.StoreOrders = user.UserOrders;
-               if(_uservm.IsRegistered == false)
-               {
-                    _pr.CreateUser(user);
-               }
-               if(_storevm.IsRegistered == false)
-               {
-                    _pr.CreateStore(_store);
-               }
+               _store.StoreOrders = user.UserOrders;               
+               _pr.CreateUser(user);               
+                _pr.CreateStore(_store);
+               
                foreach(var p in order.Pizzas)
                {
                     _pr.CreatePizza(p);
                }
                _uservm = null;
                _storevm = null;
-               return Redirect("user/index");
+               return Redirect("/user/index");
           }
 
       

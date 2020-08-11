@@ -3,6 +3,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using PizzaBox.Domain.Models;
 using PizzaBox.Storing;
+using PizzaBox.Storing.Repo;
 using Xunit;
 
 namespace PizzaBox.Testing
@@ -15,22 +16,29 @@ namespace PizzaBox.Testing
           {
                new object[]
                {
-                    new StoreModel() { Id = 1, Name = "West" },
-                    new UserModel() { Id = 1, Name = "Kyle" },
+                    new StoreModel() { Id = 1, Name = "West", StoreOrders = new List<OrderModel>()},
+                    new UserModel() { Id = 1, Name = "Kyle" , UserOrders = new List<OrderModel>()},
                }
           };
-
-
      
           [Theory]
           [MemberData(nameof(_records))]
-          // public void Test_Create()
-          // {
-
-          // }
-          public void Test_Read()
+          public void Test_Create(StoreModel store, UserModel user)
           {
-               
-          }     
+               _connection.Open();
+               try
+               {
+                    using (var context = new PizzaBoxDbContext(_options))
+                    {
+                         context.Stores.Add(store);
+                         context.Users.Add(user);
+                         context.SaveChanges();
+                    }
+               }
+               finally
+               {
+                    _connection.Close();
+               }
+          }
      }
 }

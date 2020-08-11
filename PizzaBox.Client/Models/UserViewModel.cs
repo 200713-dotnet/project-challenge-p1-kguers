@@ -15,6 +15,7 @@ namespace PizzaBox.Client.Models
           [Required]
           public string Name { get; set; }
 
+          public bool IsRegistered { get; set; }
           public UserViewModel()
           {
                CurrentOrder = new OrderViewModel();

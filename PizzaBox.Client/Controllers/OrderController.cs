@@ -18,6 +18,7 @@ namespace PizzaBox.Client.Controllers
           private PizzaBoxRepo _pr;
           private static UserViewModel _uservm;
           private static StoreViewModel _storevm;
+          private static StoreModel _store;
           public OrderController(PizzaBoxDbContext dbContext) //constructor dependency injection
           {
                _db = dbContext;
@@ -65,11 +66,19 @@ namespace PizzaBox.Client.Controllers
           public IActionResult PostStore(StoreViewModel storeViewModel)
           {
                _storevm = storeViewModel;
-               // newStore.StoreOrders = _pr.ReadStore(newStore);
-               // if (_store.StoreOrders == null)
-               // {
-               //      _pr.CreateStore(_store);
-               // }
+               var s = new StoreFactory();
+               _store = s.Create();
+               _store.Name = _storevm.Store;
+               _store.StoreOrders = _pr.ReadStore(_store);
+               if (!_store.StoreOrders.Any())
+               {
+                   _storevm.IsRegistered = false;
+               }
+               else
+               {
+                    _storevm.StoreOrders = _store.StoreOrders;
+                    _storevm.IsRegistered = true;
+               }
                return Redirect("/user/index");
           }
           [HttpGet]
@@ -90,6 +99,11 @@ namespace PizzaBox.Client.Controllers
                return View("Order", new PizzaViewModel());
           }
           [HttpPost]
+          public IActionResult UserHistory(UserViewModel u)
+          {
+               return View("UserHistory", _uservm);
+          }
+          [HttpPost]
           public IActionResult Checkout(UserViewModel u)
           {
                var user = _uservm.AddUser();
@@ -100,11 +114,24 @@ namespace PizzaBox.Client.Controllers
                order.Name = "Order"; //generic name
                order.DateOrdered = _uservm.CurrentOrder.DateOrdered;
                user.UserOrders.Add(order);
-               var store = _storevm.AddStore();
-               store.StoreOrders = user.UserOrders;
-               _pr.CreateUser(user);
-               _pr.CreateStore(store);
-               return Redirect("user/clearorder");
+               _store = _storevm.AddStore();
+               _store.Name = _storevm.Store;
+               _store.StoreOrders = user.UserOrders;
+               if(_uservm.IsRegistered == false)
+               {
+                    _pr.CreateUser(user);
+               }
+               if(_storevm.IsRegistered == false)
+               {
+                    _pr.CreateStore(_store);
+               }
+               foreach(var p in order.Pizzas)
+               {
+                    _pr.CreatePizza(p);
+               }
+               _uservm = null;
+               _storevm = null;
+               return Redirect("user/index");
           }
 
       

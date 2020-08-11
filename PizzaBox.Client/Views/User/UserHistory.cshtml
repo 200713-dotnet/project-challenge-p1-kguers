@@ -1,0 +1,28 @@
+@model PizzaBox.Client.Models.UserViewModel
+
+<h2>Current Order Cart</h2>
+<section>
+     @{
+          foreach(var o in @Model.UserOrders)
+          {
+               int i = 1;
+               <label> @o.Name &nbsp; #@o.Id &nbsp; @o.DateOrdered
+               @foreach(var p in @o.Pizzas)
+               {
+                    @($"{p.Name} # {i} : with/ ")  
+                    @foreach(var t in @p.Toppings)
+                    {
+                         @($"{t.Name}, ")
+                    }
+               }
+               </label>
+          }
+     }
+</section>
+
+
+<section>
+     <form action="/user/index">
+          <button type="submit">Back to User Directory</button>
+     </form>
+</section>

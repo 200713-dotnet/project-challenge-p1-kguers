@@ -13,9 +13,12 @@ namespace PizzaBox.Client.Models
           [Required]
           public string Store { get; set; }
 
+          public bool IsRegistered { get; set; }
+
           public StoreViewModel()
           {
                Stores = new List<string>{"West End Pizzeria", "East Side Pies"};
+               StoreOrders = new List<OrderModel>();
           }
 
           public StoreModel AddStore()

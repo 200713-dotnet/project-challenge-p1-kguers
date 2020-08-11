@@ -32,7 +32,7 @@ namespace PizzaBox.Client.Controllers
                     return View("UserDirectory", _uservm);
                }
           }
-
+          
           [HttpPost]
           [ValidateAntiForgeryToken]
           public IActionResult Name(UserViewModel userViewModel)
@@ -41,12 +41,17 @@ namespace PizzaBox.Client.Controllers
                var u = new UserFactory();
                _user = u.Create();
                _user.Name = userViewModel.Name;
-               //_user = _pr.ReadUser(_user);
-               // if (_user.UserOrders == null)
-               // {
-               //      _pr.CreateUser(_user);
-               // }
-               return View("UserStore", new StoreViewModel());//??
+               _user.UserOrders = _pr.ReadUser(_user);
+               if (!_user.UserOrders.Any())
+               {
+                    _uservm.IsRegistered = false;
+               }
+               else
+               {
+                    _uservm.UserOrders = _user.UserOrders;
+                     _uservm.IsRegistered = true;
+               }
+               return View("UserStore", new StoreViewModel());
           }
 
           

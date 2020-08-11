@@ -7,7 +7,6 @@ namespace PizzaBox.Storing
      {
           
           public DbSet<PizzaModel> Pizzas { get; set; } //create table
-          public DbSet<OrderModel> Orders { get; set; }
           public DbSet<StoreModel> Stores { get; set; }
           public DbSet<UserModel> Users { get; set; }
           public PizzaBoxDbContext(DbContextOptions options) : base(options) 

@@ -1,20 +1,33 @@
 @model PizzaBox.Client.Models.UserViewModel
 
-<h2> Order Directory</h2>
+<h2> Order Directory </h2>
 <section>
      <form action="/order/home">
+     <input type="hidden" name="currentorder" value="@Model.CurrentOrder">
+     <input type="hidden" name="isregistered" value="@Model.IsRegistered">
      <button type="submit" name="name" value="@Model.Name">Add Pizza to Order</button>
      </form>
 </section>
 
 <section>
      <form action="/order/orderlist" method="get">
-     <button type="submit" name="@Model.CurrentOrder" value="@Model.Name">Check Order History</button>
+     <input type="hidden" name="currentorder" value="@Model.CurrentOrder">
+     <input type="hidden" name="isregistered" value="@Model.IsRegistered">
+     <button type="submit" name="name" value="@Model.Name">Edit Current Order</button>
+     </form>
+</section>
+
+<section>
+     <form action="/order/userhistory" method="post">
+     <input type="hidden" name="userorders" value="@Model.UserOrders">
+     <button type="submit" name="name" value="@Model.Name">User Order History</button>
      </form>
 </section>
 
 <section>
      <form action="/order/checkout" method="post">
+     <input type="hidden" name="currentorder" value="@Model.CurrentOrder">
+     <input type="hidden" name="isregistered" value="@Model.IsRegistered">
      <button type="submit" name="@Model.CurrentOrder" value="@Model.Name">Checkout</button>
      </form>
 </section>

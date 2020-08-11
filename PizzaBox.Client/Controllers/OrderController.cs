@@ -117,11 +117,10 @@ namespace PizzaBox.Client.Controllers
                {
                     _pr.CreatePizza(p);
                }
-               _uservm = null;
-               _storevm = null;
+               _uservm.CurrentOrder = null;
+               _uservm.CurrentOrder = new OrderViewModel();
                return Redirect("/user/index");
           }
-
       
      }
 }
